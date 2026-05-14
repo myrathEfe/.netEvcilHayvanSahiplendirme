@@ -90,6 +90,7 @@ public class PetController : Controller
             Age = model.Age,
             Gender = model.Gender!.Value,
             City = model.City.Trim(),
+            ContactPhone = model.ContactPhone.Trim(),
             Description = model.Description?.Trim(),
             AdoptionStatus = model.AdoptionStatus!.Value,
             ImageData = imageBytes,
@@ -121,6 +122,7 @@ public class PetController : Controller
             Age = pet.Age,
             Gender = pet.Gender,
             City = pet.City,
+            ContactPhone = pet.ContactPhone,
             Description = pet.Description,
             AdoptionStatus = pet.AdoptionStatus,
             HasExistingImage = pet.ImageData is not null
@@ -154,6 +156,7 @@ public class PetController : Controller
             Age = model.Age,
             Gender = model.Gender!.Value,
             City = model.City.Trim(),
+            ContactPhone = model.ContactPhone.Trim(),
             Description = model.Description?.Trim(),
             AdoptionStatus = model.AdoptionStatus!.Value,
             ImageData = imageBytes,

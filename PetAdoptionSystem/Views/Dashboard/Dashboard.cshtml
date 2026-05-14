@@ -2,82 +2,164 @@
 @{
     ViewData["Title"] = "Dashboard";
     var isAdmin = Context.Session.GetString(SessionKeys.UserRole) == RoleNames.Admin;
+    var username = Context.Session.GetString(SessionKeys.Username) ?? "Kullanıcı";
+    var adoptionRate = Model.TotalPets > 0 ? (int)Math.Round((double)Model.AdoptedPets / Model.TotalPets * 100) : 0;
 }
 
-<div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
-    <div>
-        <h1 class="h2 mb-1">Dashboard</h1>
-        <p class="text-muted mb-0">İlan istatistiklerini ve son eklenen kayıtları görüntüleyin.</p>
+<section class="dashboard-hero mb-4">
+    <div class="dashboard-hero-content">
+        <div class="page-kicker mb-2">Yönetim Özeti</div>
+        <h1 class="h2 mb-2">Hoş geldiniz, @username</h1>
+        <p class="mb-0">
+            Sahiplendirme ilanlarınızın genel durumunu buradan takip edebilir, yeni eklenen dostları hızlıca inceleyebilir
+            ve uygun aksiyonlara tek ekrandan ulaşabilirsiniz.
+        </p>
     </div>
-    @if (isAdmin)
-    {
-        <a asp-controller="Pet" asp-action="Create" class="btn btn-primary">Yeni İlan Ekle</a>
-    }
-</div>
+    <div class="dashboard-hero-panel">
+        <div class="hero-icon-mark">P</div>
+        <div>
+            <span>Başarı oranı</span>
+            <strong>%@adoptionRate</strong>
+            <small>@Model.AdoptedPets ilan sahiplendirildi</small>
+        </div>
+    </div>
+</section>
 
 <div class="row g-4 mb-4">
     <div class="col-md-4">
-        <div class="dashboard-card bg-primary-subtle">
-            <span>Toplam İlan</span>
-            <strong>@Model.TotalPets</strong>
+        <div class="dashboard-stat-card stat-total">
+            <div class="stat-icon">T</div>
+            <div>
+                <span>Toplam İlan</span>
+                <strong>@Model.TotalPets</strong>
+                <small>Sistemdeki tüm kayıtlar</small>
+            </div>
         </div>
     </div>
     <div class="col-md-4">
-        <div class="dashboard-card bg-success-subtle">
-            <span>Sahiplendirilebilir</span>
-            <strong>@Model.AvailablePets</strong>
+        <div class="dashboard-stat-card stat-available">
+            <div class="stat-icon">A</div>
+            <div>
+                <span>Sahiplendirilebilir</span>
+                <strong>@Model.AvailablePets</strong>
+                <small>Yeni yuvasını bekleyenler</small>
+            </div>
         </div>
     </div>
     <div class="col-md-4">
-        <div class="dashboard-card bg-secondary-subtle">
-            <span>Sahiplendirildi</span>
-            <strong>@Model.AdoptedPets</strong>
+        <div class="dashboard-stat-card stat-adopted">
+            <div class="stat-icon">S</div>
+            <div>
+                <span>Sahiplendirildi</span>
+                <strong>@Model.AdoptedPets</strong>
+                <small>Mutlu sona ulaşan ilanlar</small>
+            </div>
         </div>
     </div>
 </div>
 
-<div class="card border-0 shadow-sm rounded-4">
-    <div class="card-body p-4">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <h2 class="h4 mb-0">Son Eklenen İlanlar</h2>
-            <a asp-controller="Pet" asp-action="Index" class="btn btn-outline-primary btn-sm">Tümünü Gör</a>
-        </div>
+<div class="row g-4">
+    <div class="col-xl-8">
+        <section class="card dashboard-section-card">
+            <div class="card-body p-4">
+                <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-2 mb-4">
+                    <div>
+                        <h2 class="h4 mb-1">Son Eklenen İlanlar</h2>
+                        <p class="text-muted mb-0">En yeni 5 ilanı hızlıca gözden geçirin.</p>
+                    </div>
+                    <a asp-controller="Pet" asp-action="Index" class="btn btn-outline-primary btn-sm">Tümünü Gör</a>
+                </div>
 
-        @if (Model.RecentPets.Any())
-        {
-            <div class="table-responsive">
-                <table class="table align-middle mb-0">
-                    <thead>
-                        <tr>
-                            <th>Adı</th>
-                            <th>Tür</th>
-                            <th>Şehir</th>
-                            <th>Durum</th>
-                            <th>Tarih</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                @if (Model.RecentPets.Any())
+                {
+                    <div class="recent-pet-list">
                         @foreach (var pet in Model.RecentPets)
                         {
-                            <tr>
-                                <td>@pet.Name</td>
-                                <td>@pet.Species.GetDisplayName()</td>
-                                <td>@pet.City</td>
-                                <td>@pet.AdoptionStatus.GetDisplayName()</td>
-                                <td>@pet.CreatedDate.ToLocalTime().ToString("dd.MM.yyyy")</td>
-                                <td class="text-end">
-                                    <a asp-controller="Pet" asp-action="Details" asp-route-id="@pet.Id" class="btn btn-outline-secondary btn-sm">Detay</a>
-                                </td>
-                            </tr>
+                            <article class="recent-pet-item">
+                                <div class="recent-pet-thumb">
+                                    @if (pet.ImageData is not null)
+                                    {
+                                        <img src="@Url.Action("Image", "Pet", new { id = pet.Id })" alt="@pet.Name" />
+                                    }
+                                    else
+                                    {
+                                        <div class="recent-pet-placeholder">Fotoğraf Yok</div>
+                                    }
+                                </div>
+
+                                <div class="recent-pet-main">
+                                    <div class="d-flex flex-column flex-md-row justify-content-md-between gap-2">
+                                        <div>
+                                            <h3 class="h6 mb-1">@pet.Name</h3>
+                                            <div class="pet-chip-list">
+                                                <span class="pet-chip">@pet.Species.GetDisplayName()</span>
+                                                <span class="pet-chip">@pet.City</span>
+                                                <span class="pet-chip">@pet.Age yaş</span>
+                                                <span class="pet-chip">İletişim: @pet.ContactPhone</span>
+                                            </div>
+                                        </div>
+                                        <span class="pet-status-badge @(pet.AdoptionStatus == AdoptionStatus.Available ? "is-available" : "is-adopted")">
+                                            @pet.AdoptionStatus.GetDisplayName()
+                                        </span>
+                                    </div>
+                                    <div class="recent-pet-footer">
+                                        <span>@pet.CreatedDate.ToLocalTime().ToString("dd.MM.yyyy") tarihinde eklendi</span>
+                                        <a asp-controller="Pet" asp-action="Details" asp-route-id="@pet.Id" class="btn btn-outline-primary btn-sm">Detay</a>
+                                    </div>
+                                </div>
+                            </article>
                         }
-                    </tbody>
-                </table>
+                    </div>
+                }
+                else
+                {
+                    <div class="dashboard-empty-state">
+                        <div class="empty-icon-mark">P</div>
+                        <h3 class="h5 mb-2">Henüz ilan eklenmemiş</h3>
+                        <p class="text-muted mb-3">İlk ilanı eklediğinizde burada son kayıtlar görsel olarak listelenecek.</p>
+                        @if (isAdmin)
+                        {
+                            <a asp-controller="Pet" asp-action="Create" class="btn btn-primary">İlk İlanı Ekle</a>
+                        }
+                    </div>
+                }
             </div>
-        }
-        else
-        {
-            <p class="text-muted mb-0">Henüz ilan eklenmemiş.</p>
-        }
+        </section>
+    </div>
+
+    <div class="col-xl-4">
+        <aside class="card dashboard-section-card h-100">
+            <div class="card-body p-4">
+                <h2 class="h5 mb-3">Hızlı Aksiyonlar</h2>
+                @if (isAdmin)
+                {
+                    <div class="dashboard-action-list">
+                        <a asp-controller="Pet" asp-action="Create" class="dashboard-action">
+                            <span>Yeni ilan ekle</span>
+                            <small>Fotoğraf ve ilan bilgilerini girin</small>
+                        </a>
+                        <a asp-controller="Pet" asp-action="Index" class="dashboard-action">
+                            <span>Tüm ilanları yönet</span>
+                            <small>Düzenleme ve silme işlemlerine ulaşın</small>
+                        </a>
+                    </div>
+                }
+                else
+                {
+                    <div class="dashboard-action-list">
+                        <a asp-controller="Pet" asp-action="Index" class="dashboard-action">
+                            <span>İlanları incele</span>
+                            <small>Uygun dostları filtreleyerek görüntüleyin</small>
+                        </a>
+                    </div>
+                }
+
+                <div class="dashboard-note mt-4">
+                    <span>Durum</span>
+                    <strong>@Model.AvailablePets</strong>
+                    <p class="mb-0">ilan şu anda sahiplendirilebilir durumda.</p>
+                </div>
+            </div>
+        </aside>
     </div>
 </div>

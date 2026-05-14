@@ -44,6 +44,7 @@ public class PetService : IPetService
         existingPet.Age = updatedPet.Age;
         existingPet.Gender = updatedPet.Gender;
         existingPet.City = updatedPet.City;
+        existingPet.ContactPhone = updatedPet.ContactPhone;
         existingPet.Description = updatedPet.Description;
         existingPet.AdoptionStatus = updatedPet.AdoptionStatus;
 
