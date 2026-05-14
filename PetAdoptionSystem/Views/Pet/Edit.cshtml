@@ -1,0 +1,43 @@
+@model PetFormViewModel
+@{
+    ViewData["Title"] = "İlan Güncelle";
+}
+
+<div class="row justify-content-center">
+    <div class="col-xl-8">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="h2 mb-1">İlan Güncelle</h1>
+                <p class="text-muted mb-0">Seçili ilanın bilgilerini düzenleyin.</p>
+            </div>
+            <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-outline-secondary">Detaya Dön</a>
+        </div>
+
+        <div class="card border-0 shadow-sm rounded-4">
+            <div class="card-body p-4 p-lg-5">
+                <form asp-action="Edit" method="post" enctype="multipart/form-data" novalidate>
+                    @Html.AntiForgeryToken()
+                    <input asp-for="Id" type="hidden" />
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                    @await Html.PartialAsync("_PetFormFields", Model)
+
+                    @if (Model.HasExistingImage)
+                    {
+                        <div class="alert alert-light border mt-3 mb-0">
+                            Yeni görsel seçmezseniz mevcut fotoğraf korunur.
+                        </div>
+                    }
+
+                    <div class="d-flex gap-2 mt-4">
+                        <button type="submit" class="btn btn-primary">Güncelle</button>
+                        <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-outline-secondary">Vazgeç</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

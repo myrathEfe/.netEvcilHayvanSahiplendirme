@@ -1,0 +1,75 @@
+@model PetFormViewModel
+
+<div class="row g-3">
+    <div class="col-md-6">
+        <label asp-for="Name" class="form-label"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger small"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="Breed" class="form-label"></label>
+        <input asp-for="Breed" class="form-control" />
+        <span asp-validation-for="Breed" class="text-danger small"></span>
+    </div>
+
+    <div class="col-md-4">
+        <label asp-for="Species" class="form-label"></label>
+        <select asp-for="Species" class="form-select">
+            <option value="">Seçiniz</option>
+            @foreach (var species in Enum.GetValues<SpeciesType>())
+            {
+                <option value="@species">@species.GetDisplayName()</option>
+            }
+        </select>
+        <span asp-validation-for="Species" class="text-danger small"></span>
+    </div>
+
+    <div class="col-md-4">
+        <label asp-for="Gender" class="form-label"></label>
+        <select asp-for="Gender" class="form-select">
+            <option value="">Seçiniz</option>
+            @foreach (var gender in Enum.GetValues<GenderType>())
+            {
+                <option value="@gender">@gender.GetDisplayName()</option>
+            }
+        </select>
+        <span asp-validation-for="Gender" class="text-danger small"></span>
+    </div>
+
+    <div class="col-md-4">
+        <label asp-for="Age" class="form-label"></label>
+        <input asp-for="Age" class="form-control" min="0" />
+        <span asp-validation-for="Age" class="text-danger small"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="City" class="form-label"></label>
+        <input asp-for="City" class="form-control" />
+        <span asp-validation-for="City" class="text-danger small"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="AdoptionStatus" class="form-label"></label>
+        <select asp-for="AdoptionStatus" class="form-select">
+            <option value="">Seçiniz</option>
+            @foreach (var status in Enum.GetValues<AdoptionStatus>())
+            {
+                <option value="@status">@status.GetDisplayName()</option>
+            }
+        </select>
+        <span asp-validation-for="AdoptionStatus" class="text-danger small"></span>
+    </div>
+
+    <div class="col-12">
+        <label asp-for="Description" class="form-label"></label>
+        <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+        <span asp-validation-for="Description" class="text-danger small"></span>
+    </div>
+
+    <div class="col-12">
+        <label asp-for="ImageFile" class="form-label"></label>
+        <input asp-for="ImageFile" class="form-control" accept=".jpg,.jpeg,.png,image/jpeg,image/png" />
+        <span asp-validation-for="ImageFile" class="text-danger small"></span>
+    </div>
+</div>

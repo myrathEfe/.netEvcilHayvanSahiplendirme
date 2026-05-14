@@ -1,0 +1,83 @@
+@model DashboardViewModel
+@{
+    ViewData["Title"] = "Dashboard";
+    var isAdmin = Context.Session.GetString(SessionKeys.UserRole) == RoleNames.Admin;
+}
+
+<div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
+    <div>
+        <h1 class="h2 mb-1">Dashboard</h1>
+        <p class="text-muted mb-0">İlan istatistiklerini ve son eklenen kayıtları görüntüleyin.</p>
+    </div>
+    @if (isAdmin)
+    {
+        <a asp-controller="Pet" asp-action="Create" class="btn btn-primary">Yeni İlan Ekle</a>
+    }
+</div>
+
+<div class="row g-4 mb-4">
+    <div class="col-md-4">
+        <div class="dashboard-card bg-primary-subtle">
+            <span>Toplam İlan</span>
+            <strong>@Model.TotalPets</strong>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="dashboard-card bg-success-subtle">
+            <span>Sahiplendirilebilir</span>
+            <strong>@Model.AvailablePets</strong>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="dashboard-card bg-secondary-subtle">
+            <span>Sahiplendirildi</span>
+            <strong>@Model.AdoptedPets</strong>
+        </div>
+    </div>
+</div>
+
+<div class="card border-0 shadow-sm rounded-4">
+    <div class="card-body p-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2 class="h4 mb-0">Son Eklenen İlanlar</h2>
+            <a asp-controller="Pet" asp-action="Index" class="btn btn-outline-primary btn-sm">Tümünü Gör</a>
+        </div>
+
+        @if (Model.RecentPets.Any())
+        {
+            <div class="table-responsive">
+                <table class="table align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th>Adı</th>
+                            <th>Tür</th>
+                            <th>Şehir</th>
+                            <th>Durum</th>
+                            <th>Tarih</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var pet in Model.RecentPets)
+                        {
+                            <tr>
+                                <td>@pet.Name</td>
+                                <td>@pet.Species.GetDisplayName()</td>
+                                <td>@pet.City</td>
+                                <td>@pet.AdoptionStatus.GetDisplayName()</td>
+                                <td>@pet.CreatedDate.ToLocalTime().ToString("dd.MM.yyyy")</td>
+                                <td class="text-end">
+                                    <a asp-controller="Pet" asp-action="Details" asp-route-id="@pet.Id" class="btn btn-outline-secondary btn-sm">Detay</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <p class="text-muted mb-0">Henüz ilan eklenmemiş.</p>
+        }
+    </div>
+</div>

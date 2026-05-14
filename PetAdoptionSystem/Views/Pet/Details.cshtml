@@ -1,0 +1,74 @@
+@model Pet
+@{
+    ViewData["Title"] = "İlan Detayı";
+    var isAdmin = Context.Session.GetString(SessionKeys.UserRole) == RoleNames.Admin;
+}
+
+<div class="row g-4">
+    <div class="col-lg-5">
+        <div class="card border-0 shadow-sm rounded-4 overflow-hidden h-100">
+            @if (Model.ImageData is not null)
+            {
+                <img src="@Url.Action("Image", "Pet", new { id = Model.Id })" class="pet-detail-image" alt="@Model.Name" />
+            }
+            else
+            {
+                <div class="pet-detail-placeholder">Fotoğraf Yok</div>
+            }
+        </div>
+    </div>
+    <div class="col-lg-7">
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+            <div class="card-body p-4 p-lg-5">
+                <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
+                    <div>
+                        <h1 class="h2 mb-1">@Model.Name</h1>
+                        <p class="text-muted mb-0">@Model.Species.GetDisplayName() | @Model.Breed</p>
+                    </div>
+                    <span class="badge @(Model.AdoptionStatus == AdoptionStatus.Available ? "text-bg-success" : "text-bg-secondary")">
+                        @Model.AdoptionStatus.GetDisplayName()
+                    </span>
+                </div>
+
+                <div class="row g-3 mb-4">
+                    <div class="col-md-6">
+                        <div class="info-box">
+                            <span>Yaş</span>
+                            <strong>@Model.Age</strong>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="info-box">
+                            <span>Cinsiyet</span>
+                            <strong>@Model.Gender.GetDisplayName()</strong>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="info-box">
+                            <span>Şehir</span>
+                            <strong>@Model.City</strong>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="info-box">
+                            <span>Eklenme Tarihi</span>
+                            <strong>@Model.CreatedDate.ToLocalTime().ToString("dd.MM.yyyy")</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <h2 class="h5">Açıklama</h2>
+                <p class="mb-4">@(string.IsNullOrWhiteSpace(Model.Description) ? "Bu ilan için açıklama girilmemiş." : Model.Description)</p>
+
+                <div class="d-flex flex-wrap gap-2">
+                    <a asp-action="Index" class="btn btn-outline-secondary">Listeye Dön</a>
+                    @if (isAdmin)
+                    {
+                        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Düzenle</a>
+                        <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Sil</a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

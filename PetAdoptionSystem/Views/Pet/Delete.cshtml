@@ -1,0 +1,42 @@
+@model Pet
+@{
+    ViewData["Title"] = "İlan Sil";
+}
+
+<div class="row justify-content-center">
+    <div class="col-xl-7">
+        <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+            <div class="card-body p-4 p-lg-5">
+                <h1 class="h3 mb-3 text-danger">İlanı silmek istediğinizden emin misiniz?</h1>
+                <p class="text-muted">Bu işlem geri alınamaz. Aşağıdaki ilan veritabanından kaldırılacaktır.</p>
+
+                <div class="row g-4 align-items-center my-2">
+                    <div class="col-md-4">
+                        @if (Model.ImageData is not null)
+                        {
+                            <img src="@Url.Action("Image", "Pet", new { id = Model.Id })" class="img-fluid rounded-4 border" alt="@Model.Name" />
+                        }
+                        else
+                        {
+                            <div class="pet-delete-placeholder rounded-4">Fotoğraf Yok</div>
+                        }
+                    </div>
+                    <div class="col-md-8">
+                        <h2 class="h4 mb-2">@Model.Name</h2>
+                        <p class="mb-1"><strong>Tür:</strong> @Model.Species.GetDisplayName()</p>
+                        <p class="mb-1"><strong>Cins:</strong> @Model.Breed</p>
+                        <p class="mb-1"><strong>Şehir:</strong> @Model.City</p>
+                        <p class="mb-0"><strong>Durum:</strong> @Model.AdoptionStatus.GetDisplayName()</p>
+                    </div>
+                </div>
+
+                <form asp-action="Delete" method="post" class="d-flex gap-2 mt-4">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" asp-for="Id" />
+                    <button type="submit" class="btn btn-danger">Sil</button>
+                    <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-outline-secondary">İptal</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
