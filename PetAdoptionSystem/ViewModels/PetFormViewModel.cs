@@ -35,6 +35,12 @@ public class PetFormViewModel : IValidatableObject
     [StringLength(100)]
     public string City { get; set; } = string.Empty;
 
+    [Required(ErrorMessage = "İletişim numarası zorunludur.")]
+    [Display(Name = "İletişim Numarası")]
+    [StringLength(20, MinimumLength = 10, ErrorMessage = "İletişim numarası 10-20 karakter arasında olmalıdır.")]
+    [RegularExpression(@"^[0-9+\s()-]{10,20}$", ErrorMessage = "Lütfen geçerli bir telefon numarası girin. Örn: 05xx xxx xx xx")]
+    public string ContactPhone { get; set; } = string.Empty;
+
     [Display(Name = "Açıklama")]
     [StringLength(1000, ErrorMessage = "Açıklama en fazla 1000 karakter olabilir.")]
     public string? Description { get; set; }

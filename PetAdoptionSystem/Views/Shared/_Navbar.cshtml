@@ -3,45 +3,53 @@
     var userRole = Context.Session.GetString(SessionKeys.UserRole);
     var isLoggedIn = !string.IsNullOrWhiteSpace(username);
     var isAdmin = userRole == RoleNames.Admin;
+    var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+    var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
+    var isPetPage = currentController == "Pet" && currentAction != "Create";
+    var isDashboardPage = currentController == "Dashboard";
+    var isCreatePage = currentController == "Pet" && currentAction == "Create";
 }
 
-<nav class="navbar navbar-expand-lg navbar-dark app-navbar shadow-sm">
+<nav class="navbar navbar-expand-lg app-navbar sticky-top">
     <div class="container">
-        <a class="navbar-brand fw-semibold" asp-controller="Pet" asp-action="Index">PetAdoptionSystem</a>
+        <a class="navbar-brand" asp-controller="Pet" asp-action="Index">
+            <span class="brand-mark">P</span>
+            <span>PetAdoptionSystem</span>
+        </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Menüyü aç">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="mainNavbar">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-lg-1">
                 <li class="nav-item">
-                    <a class="nav-link" asp-controller="Pet" asp-action="Index">İlanlar</a>
+                    <a class="nav-link @(isPetPage ? "active" : null)" asp-controller="Pet" asp-action="Index">İlanlar</a>
                 </li>
                 @if (isLoggedIn)
                 {
                     <li class="nav-item">
-                        <a class="nav-link" asp-controller="Dashboard" asp-action="Dashboard">Dashboard</a>
+                        <a class="nav-link @(isDashboardPage ? "active" : null)" asp-controller="Dashboard" asp-action="Dashboard">Dashboard</a>
                     </li>
                 }
                 @if (isAdmin)
                 {
                     <li class="nav-item">
-                        <a class="nav-link" asp-controller="Pet" asp-action="Create">Yeni İlan</a>
+                        <a class="nav-link @(isCreatePage ? "active" : null)" asp-controller="Pet" asp-action="Create">Yeni İlan</a>
                     </li>
                 }
             </ul>
 
-            <div class="d-flex align-items-center gap-2">
+            <div class="d-flex align-items-center gap-2 flex-wrap">
                 @if (isLoggedIn)
                 {
-                    <span class="badge rounded-pill text-bg-light px-3 py-2">@username (@userRole)</span>
+                    <span class="badge rounded-pill user-pill px-3 py-2">@username (@userRole)</span>
                     <form asp-controller="Account" asp-action="Logout" method="post">
                         @Html.AntiForgeryToken()
-                        <button type="submit" class="btn btn-outline-light btn-sm">Çıkış Yap</button>
+                        <button type="submit" class="btn btn-outline-primary btn-sm">Çıkış Yap</button>
                     </form>
                 }
                 else
                 {
-                    <a class="btn btn-light btn-sm" asp-controller="Account" asp-action="Login">Giriş Yap</a>
+                    <a class="btn btn-primary btn-sm" asp-controller="Account" asp-action="Login">Giriş Yap</a>
                 }
             </div>
         </div>

@@ -5,10 +5,11 @@
     var isAdmin = userRole == RoleNames.Admin;
 }
 
-<div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
+<div class="page-heading d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3">
     <div>
-        <h1 class="h2 mb-1">Sahiplendirme İlanları</h1>
-        <p class="text-muted mb-0">Evcil hayvan ilanlarını filtreleyin ve detaylarını inceleyin.</p>
+        <div class="page-kicker mb-2">Sahiplendirme</div>
+        <h1 class="h2 mb-2">Yeni dostunuzu keşfedin</h1>
+        <p class="text-muted mb-0">Evcil hayvan ilanlarını filtreleyin, detayları inceleyin ve uygun dostlara kolayca ulaşın.</p>
     </div>
     @if (isAdmin)
     {
@@ -16,7 +17,7 @@
     }
 </div>
 
-<div class="card border-0 shadow-sm rounded-4 mb-4">
+<div class="card filter-card mb-4">
     <div class="card-body p-4">
         <form asp-action="Index" method="get" class="row g-3">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -78,45 +79,62 @@
 
 @if (Model.Pets.Any())
 {
-    <div class="row g-4">
+    <div class="row g-4 pet-grid">
         @foreach (var pet in Model.Pets)
         {
             <div class="col-lg-4 col-md-6">
-                <div class="card border-0 shadow-sm rounded-4 h-100 overflow-hidden">
-                    @if (pet.ImageData is not null)
-                    {
-                        <img src="@Url.Action("Image", "Pet", new { id = pet.Id })" class="pet-card-image" alt="@pet.Name" />
-                    }
-                    else
-                    {
-                        <div class="pet-card-placeholder">Fotoğraf Yok</div>
-                    }
-                    <div class="card-body d-flex flex-column">
-                        <div class="d-flex justify-content-between align-items-start gap-3 mb-2">
-                            <h2 class="h5 mb-0">@pet.Name</h2>
-                            <span class="badge @(pet.AdoptionStatus == AdoptionStatus.Available ? "text-bg-success" : "text-bg-secondary")">
+                <article class="card pet-card">
+                    <div class="pet-media">
+                        @if (pet.ImageData is not null)
+                        {
+                            <img src="@Url.Action("Image", "Pet", new { id = pet.Id })" class="pet-card-image" alt="@pet.Name" />
+                        }
+                        else
+                        {
+                            <div class="pet-card-placeholder">Fotoğraf Yok</div>
+                        }
+                    </div>
+                    <div class="card-body d-flex flex-column p-4">
+                        <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
+                            <div>
+                                <h2 class="h5 mb-1">@pet.Name</h2>
+                                <div class="text-muted small">@pet.Breed</div>
+                            </div>
+                            <span class="pet-status-badge @(pet.AdoptionStatus == AdoptionStatus.Available ? "is-available" : "is-adopted")">
                                 @pet.AdoptionStatus.GetDisplayName()
                             </span>
                         </div>
-                        <p class="text-muted small mb-3">@pet.Species.GetDisplayName() | @pet.Breed | @pet.City</p>
-                        <p class="mb-4 flex-grow-1">@(string.IsNullOrWhiteSpace(pet.Description) ? "Açıklama eklenmemiş." : pet.Description)</p>
-                        <div class="d-flex flex-wrap gap-2 mt-auto">
-                            <a asp-action="Details" asp-route-id="@pet.Id" class="btn btn-outline-primary btn-sm">Detay</a>
+
+                        <div class="pet-chip-list mb-3">
+                            <span class="pet-chip">@pet.Species.GetDisplayName()</span>
+                            <span class="pet-chip">@pet.City</span>
+                            <span class="pet-chip">@pet.Age yaş</span>
+                        </div>
+
+                        <a class="pet-contact-link mb-3" href="tel:@pet.ContactPhone.Replace(" ", "")">
+                            <span>İletişim</span>
+                            <strong>@pet.ContactPhone</strong>
+                        </a>
+
+                        <p class="pet-description mb-4 flex-grow-1">@(string.IsNullOrWhiteSpace(pet.Description) ? "Açıklama eklenmemiş." : pet.Description)</p>
+
+                        <div class="pet-actions d-flex flex-wrap gap-2 mt-auto">
+                            <a asp-action="Details" asp-route-id="@pet.Id" class="btn btn-primary btn-sm">Detayları Gör</a>
                             @if (isAdmin)
                             {
-                                <a asp-action="Edit" asp-route-id="@pet.Id" class="btn btn-outline-warning btn-sm">Düzenle</a>
+                                <a asp-action="Edit" asp-route-id="@pet.Id" class="btn btn-outline-secondary btn-sm">Düzenle</a>
                                 <a asp-action="Delete" asp-route-id="@pet.Id" class="btn btn-outline-danger btn-sm">Sil</a>
                             }
                         </div>
                     </div>
-                </div>
+                </article>
             </div>
         }
     </div>
 }
 else
 {
-    <div class="card border-0 shadow-sm rounded-4">
+    <div class="card empty-state">
         <div class="card-body p-5 text-center">
             <h2 class="h4 mb-2">Sonuç bulunamadı</h2>
             <p class="text-muted mb-0">Filtreleri değiştirerek tekrar deneyebilirsiniz.</p>
