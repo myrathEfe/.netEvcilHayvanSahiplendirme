@@ -2,12 +2,14 @@ using Microsoft.AspNetCore.Mvc;
 using PetAdoptionSystem.Filters;
 using PetAdoptionSystem.Helpers;
 using PetAdoptionSystem.Models;
+using PetAdoptionSystem.Models.Enums;
 using PetAdoptionSystem.Services;
 using PetAdoptionSystem.Services.Models;
 using PetAdoptionSystem.ViewModels;
 
 namespace PetAdoptionSystem.Controllers;
 
+[SessionAuthorize]
 public class PetController : Controller
 {
     private readonly IPetService _petService;
@@ -33,7 +35,9 @@ public class PetController : Controller
             City = filter.City,
             MinAge = filter.MinAge,
             MaxAge = filter.MaxAge,
-            AdoptionStatus = filter.AdoptionStatus
+            AdoptionStatus = filter.AdoptionStatus,
+            DisabilityStatus = filter.DisabilityStatus,
+            OnlyDisabled = filter.OnlyDisabled
         };
 
         filter.Pets = await _petService.SearchAsync(request);
@@ -68,7 +72,10 @@ public class PetController : Controller
     [SessionAuthorize(RoleNames.Admin)]
     public IActionResult Create()
     {
-        return View(new PetFormViewModel());
+        return View(new PetFormViewModel
+        {
+            DisabilityStatus = DisabilityStatus.Unknown
+        });
     }
 
     [HttpPost]
@@ -92,7 +99,10 @@ public class PetController : Controller
             City = model.City.Trim(),
             ContactPhone = model.ContactPhone.Trim(),
             Description = model.Description?.Trim(),
-            AdoptionStatus = model.AdoptionStatus!.Value,
+            AdoptionStatus = AdoptionStatus.Available,
+            SterilizationStatus = NormalizeSterilizationStatus(model),
+            DisabilityStatus = model.DisabilityStatus!.Value,
+            DisabilityDescription = NormalizeDisabilityDescription(model),
             ImageData = imageBytes,
             ImageContentType = model.ImageFile?.ContentType
         };
@@ -125,6 +135,9 @@ public class PetController : Controller
             ContactPhone = pet.ContactPhone,
             Description = pet.Description,
             AdoptionStatus = pet.AdoptionStatus,
+            SterilizationStatus = pet.SterilizationStatus,
+            DisabilityStatus = pet.DisabilityStatus,
+            DisabilityDescription = pet.DisabilityDescription,
             HasExistingImage = pet.ImageData is not null
         };
 
@@ -141,8 +154,15 @@ public class PetController : Controller
             return BadRequest();
         }
 
+        var existingPet = await _petService.GetByIdAsync(id);
+        if (existingPet is null)
+        {
+            return NotFound();
+        }
+
         if (!ModelState.IsValid)
         {
+            model.HasExistingImage = existingPet.ImageData is not null;
             return View(model);
         }
 
@@ -158,7 +178,10 @@ public class PetController : Controller
             City = model.City.Trim(),
             ContactPhone = model.ContactPhone.Trim(),
             Description = model.Description?.Trim(),
-            AdoptionStatus = model.AdoptionStatus!.Value,
+            AdoptionStatus = existingPet.AdoptionStatus,
+            SterilizationStatus = NormalizeSterilizationStatus(model),
+            DisabilityStatus = model.DisabilityStatus!.Value,
+            DisabilityDescription = NormalizeDisabilityDescription(model),
             ImageData = imageBytes,
             ImageContentType = model.ImageFile?.ContentType
         };
@@ -203,6 +226,22 @@ public class PetController : Controller
         return RedirectToAction(nameof(Index));
     }
 
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    [SessionAuthorize(RoleNames.Admin)]
+    public async Task<IActionResult> MarkAdopted(int id)
+    {
+        var updated = await _petService.MarkAsAdoptedAsync(id);
+        if (!updated)
+        {
+            return NotFound();
+        }
+
+        TempData["StatusMessage"] = "İlan sahiplendirildi olarak işaretlendi.";
+        TempData["StatusType"] = "success";
+        return RedirectToAction(nameof(Index));
+    }
+
     private static async Task<byte[]?> ReadImageBytesAsync(IFormFile? imageFile)
     {
         if (imageFile is null || imageFile.Length == 0)
@@ -213,5 +252,19 @@ public class PetController : Controller
         using var memoryStream = new MemoryStream();
         await imageFile.CopyToAsync(memoryStream);
         return memoryStream.ToArray();
+    }
+
+    private static SterilizationStatus? NormalizeSterilizationStatus(PetFormViewModel model)
+    {
+        return PetFormViewModel.SupportsSterilization(model.Species)
+            ? model.SterilizationStatus
+            : null;
+    }
+
+    private static string? NormalizeDisabilityDescription(PetFormViewModel model)
+    {
+        return model.DisabilityStatus == DisabilityStatus.Yes
+            ? model.DisabilityDescription?.Trim()
+            : null;
     }
 }

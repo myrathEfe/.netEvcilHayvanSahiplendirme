@@ -1,11 +1,13 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using PetAdoptionSystem.Filters;
 using PetAdoptionSystem.Models;
 
 namespace PetAdoptionSystem.Controllers;
 
 public class HomeController : Controller
 {
+    [SessionAuthorize]
     public IActionResult Index()
     {
         return RedirectToAction("Index", "Pet");

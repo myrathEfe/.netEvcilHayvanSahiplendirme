@@ -12,5 +12,7 @@ public class PetFilterViewModel
     public int? MinAge { get; set; }
     public int? MaxAge { get; set; }
     public AdoptionStatus? AdoptionStatus { get; set; }
+    public DisabilityStatus? DisabilityStatus { get; set; }
+    public bool OnlyDisabled { get; set; }
     public List<Pet> Pets { get; set; } = new();
 }

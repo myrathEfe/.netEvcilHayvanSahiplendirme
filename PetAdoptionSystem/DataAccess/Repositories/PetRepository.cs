@@ -44,6 +44,16 @@ public class PetRepository : IPetRepository
             query = query.Where(x => x.AdoptionStatus == request.AdoptionStatus.Value);
         }
 
+        if (request.DisabilityStatus.HasValue)
+        {
+            query = query.Where(x => x.DisabilityStatus == request.DisabilityStatus.Value);
+        }
+
+        if (request.OnlyDisabled)
+        {
+            query = query.Where(x => x.DisabilityStatus == DisabilityStatus.Yes);
+        }
+
         if (request.MinAge.HasValue)
         {
             query = query.Where(x => x.Age >= request.MinAge.Value);

@@ -1,8 +1,8 @@
 @model PetFilterViewModel
 @{
     ViewData["Title"] = "İlanlar";
-    var userRole = Context.Session.GetString(SessionKeys.UserRole);
-    var isAdmin = userRole == RoleNames.Admin;
+    var isAdmin = Context.Session.GetString(SessionKeys.UserRole) == RoleNames.Admin;
+    var activeTab = Model.OnlyDisabled ? "disabled" : "all";
 }
 
 <div class="page-heading d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3">
@@ -17,9 +17,19 @@
     }
 </div>
 
+<ul class="nav nav-pills pet-tabs mb-4">
+    <li class="nav-item">
+        <a class="nav-link @(activeTab == "all" ? "active" : null)" asp-action="Index">Tüm İlanlar</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link @(activeTab == "disabled" ? "active" : null)" asp-action="Index" asp-route-OnlyDisabled="true">Engelli Canlarımız</a>
+    </li>
+</ul>
+
 <div class="card filter-card mb-4">
     <div class="card-body p-4">
         <form asp-action="Index" method="get" class="row g-3">
+            <input type="hidden" asp-for="OnlyDisabled" />
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <div class="col-md-4">
@@ -69,9 +79,19 @@
                 </select>
             </div>
 
+            <div class="col-md-4">
+                <label asp-for="DisabilityStatus" class="form-label">Engellilik Durumu</label>
+                <select asp-for="DisabilityStatus" class="form-select">
+                    <option value="">Tümü</option>
+                    <option value="@DisabilityStatus.No">@DisabilityStatus.No.GetDisplayName()</option>
+                    <option value="@DisabilityStatus.Yes">@DisabilityStatus.Yes.GetDisplayName()</option>
+                    <option value="@DisabilityStatus.Unknown">@DisabilityStatus.Unknown.GetDisplayName()</option>
+                </select>
+            </div>
+
             <div class="col-12 d-flex flex-wrap gap-2">
                 <button type="submit" class="btn btn-primary">Filtrele</button>
-                <a asp-action="Index" class="btn btn-outline-secondary">Temizle</a>
+                <a asp-action="Index" asp-route-OnlyDisabled="@(Model.OnlyDisabled ? "true" : null)" class="btn btn-outline-secondary">Temizle</a>
             </div>
         </form>
     </div>
@@ -83,7 +103,7 @@
         @foreach (var pet in Model.Pets)
         {
             <div class="col-lg-4 col-md-6">
-                <article class="card pet-card">
+                <article class="card pet-card" data-card-link="@Url.Action("Details", "Pet", new { id = pet.Id })" role="link" tabindex="0" aria-label="@pet.Name ilan detayını aç">
                     <div class="pet-media">
                         @if (pet.ImageData is not null)
                         {
@@ -109,6 +129,18 @@
                             <span class="pet-chip">@pet.Species.GetDisplayName()</span>
                             <span class="pet-chip">@pet.City</span>
                             <span class="pet-chip">@pet.Age yaş</span>
+                            @if (pet.SterilizationStatus.HasValue)
+                            {
+                                <span class="pet-chip">@pet.SterilizationStatus.Value.GetDisplayName()</span>
+                            }
+                            @if (pet.DisabilityStatus == DisabilityStatus.Yes)
+                            {
+                                <span class="pet-chip pet-chip-highlight">Engelli Can</span>
+                                @if (!string.IsNullOrWhiteSpace(pet.DisabilityDescription))
+                                {
+                                    <span class="pet-chip">@pet.DisabilityDescription</span>
+                                }
+                            }
                         </div>
 
                         <a class="pet-contact-link mb-3" href="tel:@pet.ContactPhone.Replace(" ", "")">
@@ -124,6 +156,13 @@
                             {
                                 <a asp-action="Edit" asp-route-id="@pet.Id" class="btn btn-outline-secondary btn-sm">Düzenle</a>
                                 <a asp-action="Delete" asp-route-id="@pet.Id" class="btn btn-outline-danger btn-sm">Sil</a>
+                                @if (pet.AdoptionStatus != AdoptionStatus.Adopted)
+                                {
+                                    <form asp-action="MarkAdopted" asp-route-id="@pet.Id" method="post" class="d-inline">
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="btn btn-outline-primary btn-sm">Sahiplendirildi</button>
+                                    </form>
+                                }
                             }
                         </div>
                     </div>
@@ -140,8 +179,4 @@ else
             <p class="text-muted mb-0">Filtreleri değiştirerek tekrar deneyebilirsiniz.</p>
         </div>
     </div>
-}
-
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
 }

@@ -47,6 +47,9 @@ public class PetService : IPetService
         existingPet.ContactPhone = updatedPet.ContactPhone;
         existingPet.Description = updatedPet.Description;
         existingPet.AdoptionStatus = updatedPet.AdoptionStatus;
+        existingPet.SterilizationStatus = updatedPet.SterilizationStatus;
+        existingPet.DisabilityStatus = updatedPet.DisabilityStatus;
+        existingPet.DisabilityDescription = updatedPet.DisabilityDescription;
 
         if (replaceImage)
         {
@@ -67,6 +70,19 @@ public class PetService : IPetService
         }
 
         await _petRepository.DeleteAsync(pet);
+        return true;
+    }
+
+    public async Task<bool> MarkAsAdoptedAsync(int id)
+    {
+        var pet = await _petRepository.GetByIdAsync(id);
+        if (pet is null)
+        {
+            return false;
+        }
+
+        pet.AdoptionStatus = AdoptionStatus.Adopted;
+        await _petRepository.UpdateAsync(pet);
         return true;
     }
 

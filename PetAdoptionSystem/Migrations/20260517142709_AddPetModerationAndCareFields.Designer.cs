@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PetAdoptionSystem.Data;
 
@@ -11,9 +12,11 @@ using PetAdoptionSystem.Data;
 namespace PetAdoptionSystem.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260517142709_AddPetModerationAndCareFields")]
+    partial class AddPetModerationAndCareFields
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -70,6 +73,9 @@ namespace PetAdoptionSystem.Migrations
                     b.Property<int>("Age")
                         .HasColumnType("int");
 
+                    b.Property<int>("ApprovalStatus")
+                        .HasColumnType("int");
+
                     b.Property<string>("Breed")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -84,6 +90,9 @@ namespace PetAdoptionSystem.Migrations
                         .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
+
+                    b.Property<int?>("CreatedByUserId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
@@ -122,7 +131,24 @@ namespace PetAdoptionSystem.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CreatedByUserId");
+
                     b.ToTable("Pets");
+                });
+
+            modelBuilder.Entity("PetAdoptionSystem.Models.Pet", b =>
+                {
+                    b.HasOne("PetAdoptionSystem.Models.AppUser", "CreatedByUser")
+                        .WithMany("Pets")
+                        .HasForeignKey("CreatedByUserId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("CreatedByUser");
+                });
+
+            modelBuilder.Entity("PetAdoptionSystem.Models.AppUser", b =>
+                {
+                    b.Navigation("Pets");
                 });
 #pragma warning restore 612, 618
         }

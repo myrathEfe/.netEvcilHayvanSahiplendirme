@@ -155,6 +155,20 @@ h6,
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(255, 247, 232, 0.96));
 }
 
+.pet-tabs {
+  gap: 0.5rem;
+}
+
+.pet-tabs .nav-link {
+  border-radius: 999px;
+  color: var(--app-muted);
+  font-weight: 750;
+}
+
+.pet-tabs .nav-link.active {
+  background: var(--app-primary);
+}
+
 .form-label {
   color: #405148;
   font-weight: 650;
@@ -235,6 +249,15 @@ h6,
   height: 100%;
   overflow: hidden;
   transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+}
+
+.pet-card[data-card-link] {
+  cursor: pointer;
+}
+
+.pet-card[data-card-link]:focus-visible {
+  outline: 0;
+  box-shadow: 0 0 0 0.18rem rgba(37, 112, 106, 0.2), var(--app-shadow);
 }
 
 .pet-card:hover {
@@ -331,6 +354,12 @@ h6,
   padding: 0.34rem 0.62rem;
 }
 
+.pet-chip-highlight {
+  background: #fff1d8;
+  border-color: rgba(237, 155, 58, 0.26);
+  color: #9a5b0b;
+}
+
 .pet-description {
   color: #52635b;
   display: -webkit-box;
@@ -387,6 +416,10 @@ h6,
 .pet-actions {
   border-top: 1px solid rgba(37, 112, 106, 0.1);
   padding-top: 1rem;
+}
+
+.pet-actions form {
+  display: inline-flex;
 }
 
 .empty-state {
@@ -556,9 +589,7 @@ h6,
 }
 
 .recent-pet-item {
-  display: grid;
-  grid-template-columns: 6rem minmax(0, 1fr);
-  gap: 1rem;
+  display: block;
   align-items: center;
   border: 1px solid rgba(37, 112, 106, 0.1);
   border-radius: 1.05rem;

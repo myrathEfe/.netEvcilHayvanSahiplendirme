@@ -5,14 +5,17 @@
     var isAdmin = userRole == RoleNames.Admin;
     var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
     var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
-    var isPetPage = currentController == "Pet" && currentAction != "Create";
+    var isDisabledPetsPage = currentController == "Pet"
+        && currentAction == "Index"
+        && string.Equals(Context.Request.Query["OnlyDisabled"].ToString(), "true", StringComparison.OrdinalIgnoreCase);
+    var isPetPage = currentController == "Pet" && currentAction != "Create" && !isDisabledPetsPage;
     var isDashboardPage = currentController == "Dashboard";
     var isCreatePage = currentController == "Pet" && currentAction == "Create";
 }
 
 <nav class="navbar navbar-expand-lg app-navbar sticky-top">
     <div class="container">
-        <a class="navbar-brand" asp-controller="Pet" asp-action="Index">
+        <a class="navbar-brand" asp-controller="@(isLoggedIn ? "Dashboard" : "Account")" asp-action="@(isLoggedIn ? "Dashboard" : "Login")">
             <span class="brand-mark">P</span>
             <span>PetAdoptionSystem</span>
         </a>
@@ -21,20 +24,23 @@
         </button>
         <div class="collapse navbar-collapse" id="mainNavbar">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-lg-1">
-                <li class="nav-item">
-                    <a class="nav-link @(isPetPage ? "active" : null)" asp-controller="Pet" asp-action="Index">İlanlar</a>
-                </li>
                 @if (isLoggedIn)
                 {
                     <li class="nav-item">
                         <a class="nav-link @(isDashboardPage ? "active" : null)" asp-controller="Dashboard" asp-action="Dashboard">Dashboard</a>
                     </li>
-                }
-                @if (isAdmin)
-                {
                     <li class="nav-item">
-                        <a class="nav-link @(isCreatePage ? "active" : null)" asp-controller="Pet" asp-action="Create">Yeni İlan</a>
+                        <a class="nav-link @(isPetPage ? "active" : null)" asp-controller="Pet" asp-action="Index">İlanlar</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link @(isDisabledPetsPage ? "active" : null)" asp-controller="Pet" asp-action="Index" asp-route-OnlyDisabled="true">Engelli Canlarımız</a>
+                    </li>
+                    @if (isAdmin)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link @(isCreatePage ? "active" : null)" asp-controller="Pet" asp-action="Create">Yeni İlan</a>
+                        </li>
+                    }
                 }
             </ul>
 

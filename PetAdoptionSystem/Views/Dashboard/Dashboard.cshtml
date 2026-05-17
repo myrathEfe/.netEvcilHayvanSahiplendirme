@@ -8,17 +8,26 @@
 
 <section class="dashboard-hero mb-4">
     <div class="dashboard-hero-content">
-        <div class="page-kicker mb-2">Yönetim Özeti</div>
+        <div class="page-kicker mb-2">@(isAdmin ? "Yönetim Özeti" : "Hoş Geldiniz")</div>
         <h1 class="h2 mb-2">Hoş geldiniz, @username</h1>
-        <p class="mb-0">
-            Sahiplendirme ilanlarınızın genel durumunu buradan takip edebilir, yeni eklenen dostları hızlıca inceleyebilir
-            ve uygun aksiyonlara tek ekrandan ulaşabilirsiniz.
-        </p>
+        @if (isAdmin)
+        {
+            <p class="mb-0">
+                Sahiplendirme ilanlarının genel durumunu takip edebilir, ilan ekleme ve yönetim işlemlerine hızlıca ulaşabilirsiniz.
+            </p>
+        }
+        else
+        {
+            <p class="mb-0">
+                Sahiplendirme yolculuğuna katkı sağladığınız için teşekkürler. Yeni yuvasını arayan dostları inceleyebilir
+                ve engelli canlarımızı kolayca görüntüleyebilirsiniz.
+            </p>
+        }
     </div>
     <div class="dashboard-hero-panel">
         <div class="hero-icon-mark">P</div>
         <div>
-            <span>Başarı oranı</span>
+            <span>Sahiplendirme oranı</span>
             <strong>%@adoptionRate</strong>
             <small>@Model.AdoptedPets ilan sahiplendirildi</small>
         </div>
@@ -32,7 +41,7 @@
             <div>
                 <span>Toplam İlan</span>
                 <strong>@Model.TotalPets</strong>
-                <small>Sistemdeki tüm kayıtlar</small>
+                <small>Sistemdeki kayıtlar</small>
             </div>
         </div>
     </div>
@@ -65,7 +74,7 @@
                 <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-2 mb-4">
                     <div>
                         <h2 class="h4 mb-1">Son Eklenen İlanlar</h2>
-                        <p class="text-muted mb-0">En yeni 5 ilanı hızlıca gözden geçirin.</p>
+                        <p class="text-muted mb-0">En yeni 5 ilanı kısa bilgilerle gözden geçirin.</p>
                     </div>
                     <a asp-controller="Pet" asp-action="Index" class="btn btn-outline-primary btn-sm">Tümünü Gör</a>
                 </div>
@@ -76,17 +85,6 @@
                         @foreach (var pet in Model.RecentPets)
                         {
                             <article class="recent-pet-item">
-                                <div class="recent-pet-thumb">
-                                    @if (pet.ImageData is not null)
-                                    {
-                                        <img src="@Url.Action("Image", "Pet", new { id = pet.Id })" alt="@pet.Name" />
-                                    }
-                                    else
-                                    {
-                                        <div class="recent-pet-placeholder">Fotoğraf Yok</div>
-                                    }
-                                </div>
-
                                 <div class="recent-pet-main">
                                     <div class="d-flex flex-column flex-md-row justify-content-md-between gap-2">
                                         <div>
@@ -95,7 +93,7 @@
                                                 <span class="pet-chip">@pet.Species.GetDisplayName()</span>
                                                 <span class="pet-chip">@pet.City</span>
                                                 <span class="pet-chip">@pet.Age yaş</span>
-                                                <span class="pet-chip">İletişim: @pet.ContactPhone</span>
+                                                <span class="pet-chip">@pet.CreatedDate.ToLocalTime().ToString("dd.MM.yyyy")</span>
                                             </div>
                                         </div>
                                         <span class="pet-status-badge @(pet.AdoptionStatus == AdoptionStatus.Available ? "is-available" : "is-adopted")">
@@ -103,7 +101,7 @@
                                         </span>
                                     </div>
                                     <div class="recent-pet-footer">
-                                        <span>@pet.CreatedDate.ToLocalTime().ToString("dd.MM.yyyy") tarihinde eklendi</span>
+                                        <span>@(pet.DisabilityStatus == DisabilityStatus.Yes ? "Engelli canlarımız arasında" : "Kısa ilan özeti")</span>
                                         <a asp-controller="Pet" asp-action="Details" asp-route-id="@pet.Id" class="btn btn-outline-primary btn-sm">Detay</a>
                                     </div>
                                 </div>
@@ -115,11 +113,11 @@
                 {
                     <div class="dashboard-empty-state">
                         <div class="empty-icon-mark">P</div>
-                        <h3 class="h5 mb-2">Henüz ilan eklenmemiş</h3>
-                        <p class="text-muted mb-3">İlk ilanı eklediğinizde burada son kayıtlar görsel olarak listelenecek.</p>
+                        <h3 class="h5 mb-2">Henüz ilan yok</h3>
+                        <p class="text-muted mb-3">İlk ilan oluşturulduğunda burada kısa bir özetle listelenecek.</p>
                         @if (isAdmin)
                         {
-                            <a asp-controller="Pet" asp-action="Create" class="btn btn-primary">İlk İlanı Ekle</a>
+                            <a asp-controller="Pet" asp-action="Create" class="btn btn-primary">İlk İlanı Oluştur</a>
                         }
                     </div>
                 }
@@ -131,9 +129,9 @@
         <aside class="card dashboard-section-card h-100">
             <div class="card-body p-4">
                 <h2 class="h5 mb-3">Hızlı Aksiyonlar</h2>
-                @if (isAdmin)
-                {
-                    <div class="dashboard-action-list">
+                <div class="dashboard-action-list">
+                    @if (isAdmin)
+                    {
                         <a asp-controller="Pet" asp-action="Create" class="dashboard-action">
                             <span>Yeni ilan ekle</span>
                             <small>Fotoğraf ve ilan bilgilerini girin</small>
@@ -142,17 +140,19 @@
                             <span>Tüm ilanları yönet</span>
                             <small>Düzenleme ve silme işlemlerine ulaşın</small>
                         </a>
-                    </div>
-                }
-                else
-                {
-                    <div class="dashboard-action-list">
+                    }
+                    else
+                    {
                         <a asp-controller="Pet" asp-action="Index" class="dashboard-action">
                             <span>İlanları incele</span>
                             <small>Uygun dostları filtreleyerek görüntüleyin</small>
                         </a>
-                    </div>
-                }
+                    }
+                    <a asp-controller="Pet" asp-action="Index" asp-route-OnlyDisabled="true" class="dashboard-action">
+                        <span>Engelli Canlarımız</span>
+                        <small>Özel ilgi bekleyen dostları görüntüleyin</small>
+                    </a>
+                </div>
 
                 <div class="dashboard-note mt-4">
                     <span>Durum</span>

@@ -61,7 +61,28 @@
                             <strong>@Model.CreatedDate.ToLocalTime().ToString("dd.MM.yyyy")</strong>
                         </div>
                     </div>
+                    @if (Model.SterilizationStatus.HasValue)
+                    {
+                        <div class="col-md-6">
+                            <div class="info-box">
+                                <span>Kısırlık Durumu</span>
+                                <strong>@Model.SterilizationStatus.Value.GetDisplayName()</strong>
+                            </div>
+                        </div>
+                    }
+                    <div class="col-md-6">
+                        <div class="info-box">
+                            <span>Engellilik Durumu</span>
+                            <strong>@Model.DisabilityStatus.GetDisplayName()</strong>
+                        </div>
+                    </div>
                 </div>
+
+                @if (Model.DisabilityStatus == DisabilityStatus.Yes && !string.IsNullOrWhiteSpace(Model.DisabilityDescription))
+                {
+                    <h2 class="h5">Engel Nedir?</h2>
+                    <p class="text-muted mb-4">@Model.DisabilityDescription</p>
+                }
 
                 <h2 class="h5">Açıklama</h2>
                 <p class="text-muted mb-4">@(string.IsNullOrWhiteSpace(Model.Description) ? "Bu ilan için açıklama girilmemiş." : Model.Description)</p>
@@ -72,6 +93,13 @@
                     {
                         <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-secondary">Düzenle</a>
                         <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-outline-danger">Sil</a>
+                        @if (Model.AdoptionStatus != AdoptionStatus.Adopted)
+                        {
+                            <form asp-action="MarkAdopted" asp-route-id="@Model.Id" method="post" class="d-inline">
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="btn btn-outline-primary">Sahiplendirildi</button>
+                            </form>
+                        }
                     }
                 </div>
             </div>

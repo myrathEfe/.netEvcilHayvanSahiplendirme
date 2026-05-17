@@ -15,7 +15,7 @@
 
     <div class="col-md-4">
         <label asp-for="Species" class="form-label"></label>
-        <select asp-for="Species" class="form-select">
+        <select asp-for="Species" class="form-select" data-species-select>
             <option value="">Seçiniz</option>
             @foreach (var species in Enum.GetValues<SpeciesType>())
             {
@@ -55,16 +55,32 @@
         <span asp-validation-for="ContactPhone" class="text-danger small"></span>
     </div>
 
-    <div class="col-md-6">
-        <label asp-for="AdoptionStatus" class="form-label"></label>
-        <select asp-for="AdoptionStatus" class="form-select">
+    <div class="col-md-6 sterilization-field" data-sterilization-field>
+        <label asp-for="SterilizationStatus" class="form-label"></label>
+        <select asp-for="SterilizationStatus" class="form-select" data-sterilization-select>
             <option value="">Seçiniz</option>
-            @foreach (var status in Enum.GetValues<AdoptionStatus>())
+            @foreach (var status in Enum.GetValues<SterilizationStatus>())
             {
                 <option value="@status">@status.GetDisplayName()</option>
             }
         </select>
-        <span asp-validation-for="AdoptionStatus" class="text-danger small"></span>
+        <span asp-validation-for="SterilizationStatus" class="text-danger small"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="DisabilityStatus" class="form-label"></label>
+        <select asp-for="DisabilityStatus" class="form-select" data-disability-select>
+            <option value="@DisabilityStatus.No">@DisabilityStatus.No.GetDisplayName()</option>
+            <option value="@DisabilityStatus.Yes">@DisabilityStatus.Yes.GetDisplayName()</option>
+            <option value="@DisabilityStatus.Unknown">@DisabilityStatus.Unknown.GetDisplayName()</option>
+        </select>
+        <span asp-validation-for="DisabilityStatus" class="text-danger small"></span>
+    </div>
+
+    <div class="col-12 disability-description-field" data-disability-description-field>
+        <label asp-for="DisabilityDescription" class="form-label"></label>
+        <textarea asp-for="DisabilityDescription" class="form-control" rows="3" placeholder="Örn: Sağır, görme engelli, yürüme zorluğu var..." data-disability-description></textarea>
+        <span asp-validation-for="DisabilityDescription" class="text-danger small"></span>
     </div>
 
     <div class="col-12">

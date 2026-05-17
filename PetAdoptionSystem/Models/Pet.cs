@@ -40,6 +40,14 @@ public class Pet
     [Required(ErrorMessage = "Sahiplendirme durumu zorunludur.")]
     public AdoptionStatus AdoptionStatus { get; set; }
 
+    public SterilizationStatus? SterilizationStatus { get; set; }
+
+    [Required(ErrorMessage = "Engellilik durumu zorunludur.")]
+    public DisabilityStatus DisabilityStatus { get; set; } = DisabilityStatus.Unknown;
+
+    [StringLength(500, ErrorMessage = "Engellilik açıklaması en fazla 500 karakter olabilir.")]
+    public string? DisabilityDescription { get; set; }
+
     [Column(TypeName = "varbinary(max)")]
     public byte[]? ImageData { get; set; }
 

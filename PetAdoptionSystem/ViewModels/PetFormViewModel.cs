@@ -45,17 +45,57 @@ public class PetFormViewModel : IValidatableObject
     [StringLength(1000, ErrorMessage = "Açıklama en fazla 1000 karakter olabilir.")]
     public string? Description { get; set; }
 
-    [Required(ErrorMessage = "Sahiplendirme durumu zorunludur.")]
-    [Display(Name = "Sahiplendirme Durumu")]
     public AdoptionStatus? AdoptionStatus { get; set; }
+
+    [Display(Name = "Kısırlık Durumu")]
+    public SterilizationStatus? SterilizationStatus { get; set; }
+
+    [Required(ErrorMessage = "Engellilik durumu zorunludur.")]
+    [Display(Name = "Engellilik durumu var mı?")]
+    public DisabilityStatus? DisabilityStatus { get; set; } = PetAdoptionSystem.Models.Enums.DisabilityStatus.Unknown;
+
+    [Display(Name = "Engel Nedir?")]
+    [StringLength(500, ErrorMessage = "Engellilik açıklaması en fazla 500 karakter olabilir.")]
+    public string? DisabilityDescription { get; set; }
 
     [Display(Name = "Fotoğraf")]
     public IFormFile? ImageFile { get; set; }
 
     public bool HasExistingImage { get; set; }
 
+    public static bool SupportsSterilization(SpeciesType? species)
+    {
+        return species is SpeciesType.Cat
+            or SpeciesType.Dog
+            or SpeciesType.Rabbit
+            or SpeciesType.Hamster
+            or SpeciesType.GuineaPig;
+    }
+
     public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
     {
+        if (SupportsSterilization(Species) && !SterilizationStatus.HasValue)
+        {
+            yield return new ValidationResult(
+                "Bu tür için kısırlık durumu seçiniz.",
+                new[] { nameof(SterilizationStatus) });
+        }
+
+        if (!SupportsSterilization(Species) && SterilizationStatus.HasValue)
+        {
+            yield return new ValidationResult(
+                "Seçilen tür için kısırlık durumu kaydedilemez.",
+                new[] { nameof(SterilizationStatus) });
+        }
+
+        if (DisabilityStatus == PetAdoptionSystem.Models.Enums.DisabilityStatus.Yes
+            && string.IsNullOrWhiteSpace(DisabilityDescription))
+        {
+            yield return new ValidationResult(
+                "Engellilik durumu Evet seçildiyse engelin ne olduğunu yazınız.",
+                new[] { nameof(DisabilityDescription) });
+        }
+
         if (ImageFile is not null)
         {
             var allowedTypes = new[] { "image/jpeg", "image/png" };

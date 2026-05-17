@@ -14,5 +14,20 @@ public enum SpeciesType
     Bird = 3,
 
     [Display(Name = "Diğer")]
-    Other = 4
+    Other = 4,
+
+    [Display(Name = "Tavşan")]
+    Rabbit = 5,
+
+    [Display(Name = "Hamster")]
+    Hamster = 6,
+
+    [Display(Name = "Kobay")]
+    GuineaPig = 7,
+
+    [Display(Name = "Balık")]
+    Fish = 8,
+
+    [Display(Name = "Kaplumbağa")]
+    Turtle = 9
 }

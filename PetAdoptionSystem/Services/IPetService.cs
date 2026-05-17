@@ -10,5 +10,6 @@ public interface IPetService
     Task CreateAsync(Pet pet);
     Task<bool> UpdateAsync(int id, Pet updatedPet, bool replaceImage);
     Task<bool> DeleteAsync(int id);
+    Task<bool> MarkAsAdoptedAsync(int id);
     Task<DashboardSummary> GetDashboardAsync();
 }
