@@ -143,9 +143,9 @@
                             }
                         </div>
 
-                        <a class="pet-contact-link mb-3" href="tel:@pet.ContactPhone.Replace(" ", "")">
+                        <a class="pet-contact-link mb-3" href="tel:@ShelterInfo.PhoneDial">
                             <span>İletişim</span>
-                            <strong>@pet.ContactPhone</strong>
+                            <strong>@ShelterInfo.PhoneDisplay</strong>
                         </a>
 
                         <p class="pet-description mb-4 flex-grow-1">@(string.IsNullOrWhiteSpace(pet.Description) ? "Açıklama eklenmemiş." : pet.Description)</p>

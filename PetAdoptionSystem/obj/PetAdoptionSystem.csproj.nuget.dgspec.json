@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Onur Olmuş\\.netEvcilHayvanSahiplendirme\\PetAdoptionSystem\\PetAdoptionSystem.csproj": {}
+    "/Users/efe/Desktop/Projeler/evcilhayvan-yeni/PetAdoptionSystem/PetAdoptionSystem.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Onur Olmuş\\.netEvcilHayvanSahiplendirme\\PetAdoptionSystem\\PetAdoptionSystem.csproj": {
+    "/Users/efe/Desktop/Projeler/evcilhayvan-yeni/PetAdoptionSystem/PetAdoptionSystem.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Onur Olmuş\\.netEvcilHayvanSahiplendirme\\PetAdoptionSystem\\PetAdoptionSystem.csproj",
+        "projectUniqueName": "/Users/efe/Desktop/Projeler/evcilhayvan-yeni/PetAdoptionSystem/PetAdoptionSystem.csproj",
         "projectName": "PetAdoptionSystem",
-        "projectPath": "C:\\Users\\Onur Olmuş\\.netEvcilHayvanSahiplendirme\\PetAdoptionSystem\\PetAdoptionSystem.csproj",
-        "packagesPath": "C:\\Users\\Onur Olmuş\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Onur Olmuş\\.netEvcilHayvanSahiplendirme\\PetAdoptionSystem\\obj\\",
+        "projectPath": "/Users/efe/Desktop/Projeler/evcilhayvan-yeni/PetAdoptionSystem/PetAdoptionSystem.csproj",
+        "packagesPath": "/Users/efe/.nuget/packages/",
+        "outputPath": "/Users/efe/Desktop/Projeler/evcilhayvan-yeni/PetAdoptionSystem/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Onur Olmuş\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "/Users/efe/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -73,7 +73,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.421/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.408/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

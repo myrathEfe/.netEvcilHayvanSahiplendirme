@@ -34,16 +34,15 @@ public static class SeedData
             await context.SaveChangesAsync();
         }
 
-        var petsWithoutContactPhone = await context.Pets
-            .Where(x => string.IsNullOrWhiteSpace(x.ContactPhone))
+        var petsWithDifferentContactPhone = await context.Pets
+            .Where(x => x.ContactPhone != ShelterInfo.PhoneDisplay)
             .ToListAsync();
 
-        if (petsWithoutContactPhone.Count > 0)
+        if (petsWithDifferentContactPhone.Count > 0)
         {
-            var demoPhones = new[] { "0532 123 45 67", "0543 234 56 78", "0555 345 67 89" };
-            for (var i = 0; i < petsWithoutContactPhone.Count; i++)
+            foreach (var pet in petsWithDifferentContactPhone)
             {
-                petsWithoutContactPhone[i].ContactPhone = demoPhones[i % demoPhones.Length];
+                pet.ContactPhone = ShelterInfo.PhoneDisplay;
             }
 
             await context.SaveChangesAsync();

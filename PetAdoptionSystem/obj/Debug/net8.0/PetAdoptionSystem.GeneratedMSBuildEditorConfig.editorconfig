@@ -9,71 +9,71 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = PetAdoptionSystem
 build_property.RootNamespace = PetAdoptionSystem
-build_property.ProjectDir = C:\Users\Onur Olmuş\.netEvcilHayvanSahiplendirme\PetAdoptionSystem\
+build_property.ProjectDir = /Users/efe/Desktop/Projeler/evcilhayvan-yeni/PetAdoptionSystem/
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\Onur Olmuş\.netEvcilHayvanSahiplendirme\PetAdoptionSystem
+build_property.MSBuildProjectDirectory = /Users/efe/Desktop/Projeler/evcilhayvan-yeni/PetAdoptionSystem
 build_property._RazorSourceGeneratorDebug = 
 
-[C:/Users/Onur Olmuş/.netEvcilHayvanSahiplendirme/PetAdoptionSystem/Views/Account/AccessDenied.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxBY2Nlc3NEZW5pZWQuY3NodG1s
+[/Users/efe/Desktop/Projeler/evcilhayvan-yeni/PetAdoptionSystem/Views/Account/AccessDenied.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWNjb3VudC9BY2Nlc3NEZW5pZWQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Onur Olmuş/.netEvcilHayvanSahiplendirme/PetAdoptionSystem/Views/Account/Login.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxMb2dpbi5jc2h0bWw=
+[/Users/efe/Desktop/Projeler/evcilhayvan-yeni/PetAdoptionSystem/Views/Account/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWNjb3VudC9Mb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Onur Olmuş/.netEvcilHayvanSahiplendirme/PetAdoptionSystem/Views/Dashboard/Dashboard.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGFzaGJvYXJkXERhc2hib2FyZC5jc2h0bWw=
+[/Users/efe/Desktop/Projeler/evcilhayvan-yeni/PetAdoptionSystem/Views/Dashboard/Dashboard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRGFzaGJvYXJkL0Rhc2hib2FyZC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Onur Olmuş/.netEvcilHayvanSahiplendirme/PetAdoptionSystem/Views/Pet/Create.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGV0XENyZWF0ZS5jc2h0bWw=
+[/Users/efe/Desktop/Projeler/evcilhayvan-yeni/PetAdoptionSystem/Views/Pet/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUGV0L0NyZWF0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Onur Olmuş/.netEvcilHayvanSahiplendirme/PetAdoptionSystem/Views/Pet/Delete.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGV0XERlbGV0ZS5jc2h0bWw=
+[/Users/efe/Desktop/Projeler/evcilhayvan-yeni/PetAdoptionSystem/Views/Pet/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUGV0L0RlbGV0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Onur Olmuş/.netEvcilHayvanSahiplendirme/PetAdoptionSystem/Views/Pet/Details.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGV0XERldGFpbHMuY3NodG1s
+[/Users/efe/Desktop/Projeler/evcilhayvan-yeni/PetAdoptionSystem/Views/Pet/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUGV0L0RldGFpbHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Onur Olmuş/.netEvcilHayvanSahiplendirme/PetAdoptionSystem/Views/Pet/Edit.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGV0XEVkaXQuY3NodG1s
+[/Users/efe/Desktop/Projeler/evcilhayvan-yeni/PetAdoptionSystem/Views/Pet/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUGV0L0VkaXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Onur Olmuş/.netEvcilHayvanSahiplendirme/PetAdoptionSystem/Views/Pet/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGV0XEluZGV4LmNzaHRtbA==
+[/Users/efe/Desktop/Projeler/evcilhayvan-yeni/PetAdoptionSystem/Views/Pet/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUGV0L0luZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Onur Olmuş/.netEvcilHayvanSahiplendirme/PetAdoptionSystem/Views/Pet/_PetFormFields.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGV0XF9QZXRGb3JtRmllbGRzLmNzaHRtbA==
+[/Users/efe/Desktop/Projeler/evcilhayvan-yeni/PetAdoptionSystem/Views/Pet/_PetFormFields.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUGV0L19QZXRGb3JtRmllbGRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Onur Olmuş/.netEvcilHayvanSahiplendirme/PetAdoptionSystem/Views/Shared/Error.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
+[/Users/efe/Desktop/Projeler/evcilhayvan-yeni/PetAdoptionSystem/Views/Shared/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0Vycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Onur Olmuş/.netEvcilHayvanSahiplendirme/PetAdoptionSystem/Views/Shared/_Layout.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+[/Users/efe/Desktop/Projeler/evcilhayvan-yeni/PetAdoptionSystem/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Onur Olmuş/.netEvcilHayvanSahiplendirme/PetAdoptionSystem/Views/Shared/_Navbar.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9OYXZiYXIuY3NodG1s
+[/Users/efe/Desktop/Projeler/evcilhayvan-yeni/PetAdoptionSystem/Views/Shared/_Navbar.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19OYXZiYXIuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Onur Olmuş/.netEvcilHayvanSahiplendirme/PetAdoptionSystem/Views/Shared/_ValidationScriptsPartial.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+[/Users/efe/Desktop/Projeler/evcilhayvan-yeni/PetAdoptionSystem/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Onur Olmuş/.netEvcilHayvanSahiplendirme/PetAdoptionSystem/Views/_ViewImports.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+[/Users/efe/Desktop/Projeler/evcilhayvan-yeni/PetAdoptionSystem/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Onur Olmuş/.netEvcilHayvanSahiplendirme/PetAdoptionSystem/Views/_ViewStart.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
+[/Users/efe/Desktop/Projeler/evcilhayvan-yeni/PetAdoptionSystem/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 

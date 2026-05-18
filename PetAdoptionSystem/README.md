@@ -1,6 +1,6 @@
-# PetAdoptionSystem
+# Nilüfer Hayvan Sahiplendirme
 
-ASP.NET Core MVC, Entity Framework Core ve SQL Server kullanılarak geliştirilmiş katmanlı bir evcil hayvan sahiplendirme sistemidir.
+ASP.NET Core MVC, Entity Framework Core ve SQL Server kullanilarak gelistirilmis, barinaga ait evcil hayvan sahiplendirme servisidir. Tum ilanlar icin sabit iletisim numarasi `444 16 03` kullanilir.
 
 ## Katmanlar
 
@@ -61,7 +61,7 @@ PetAdoptionSystem
 - SQL Server içinde `VARBINARY(MAX)` olarak fotoğraf saklama
 - `/Pet/Image/{id}` action'ı ile görsel gösterimi
 - Tür, cins, şehir, yaş aralığı, durum ve isim filtreleriyle arama
-- İlanlarda iletişim numarası
+- Tum ilanlarda sabit barinak telefonu kullanimi
 - Bootstrap tabanlı arayüz
 
 ## Varsayılan Kullanıcılar
@@ -103,42 +103,80 @@ Mac Docker SQL Server için örnek:
 docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=YourStrong!Passw0rd" -p 1433:1433 --name pet-adoption-sql -d mcr.microsoft.com/mssql/server:2022-latest
 ```
 
-## Çalıştırma Adımları
+## Windows'ta Calistirma
 
-1. `appsettings.json` veya `appsettings.Development.json` içindeki `DefaultConnection` değerini kendi SQL Server bilginize göre güncelleyin.
-2. Paketleri geri yükleyin:
+1. Bilgisayarda .NET 8 SDK kurulu olsun.
+2. SQL Server veya SQL Server Express kurulu olsun.
+3. `appsettings.json` ya da `appsettings.Development.json` icindeki `DefaultConnection` degerini kendi SQL Server bilginize gore guncelleyin.
+4. Proje klasorunde terminal acin:
 
-```bash
+```powershell
+cd PetAdoptionSystem
 dotnet restore
-```
-
-3. Projeyi derleyin:
-
-```bash
 dotnet build
 ```
 
-4. Veritabanını oluşturun veya güncelleyin:
+5. Gerekirse EF Core CLI aracini yukleyin:
 
-```bash
+```powershell
+dotnet tool install --global dotnet-ef
+```
+
+6. Veritabanini olusturun/guncelleyin:
+
+```powershell
 dotnet ef database update
 ```
 
-`dotnet ef` komutu tanınmazsa EF Core CLI aracını yükleyin:
+7. Uygulamayi baslatin:
+
+```powershell
+dotnet run
+```
+
+8. Terminalde yazan `Now listening on` adresini tarayicida acin. Genelde giris sayfasi `https://localhost:xxxx/Account/Login` olur.
+
+## macOS'ta Calistirma
+
+1. Bilgisayarda .NET 8 SDK kurulu olsun.
+2. Docker Desktop kurulu olsun.
+3. SQL Server container'ini baslatin:
+
+```bash
+docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=YourStrong!Passw0rd" -p 1433:1433 --name pet-adoption-sql -d mcr.microsoft.com/mssql/server:2022-latest
+```
+
+4. `appsettings.json` ya da `appsettings.Development.json` icindeki `DefaultConnection` degerini container sifresine gore guncelleyin.
+5. Proje klasorunde terminal acin:
+
+```bash
+cd PetAdoptionSystem
+dotnet restore
+dotnet build
+```
+
+6. Gerekirse EF Core CLI aracini yukleyin:
 
 ```bash
 dotnet tool install --global dotnet-ef
 ```
 
-5. Uygulamayı çalıştırın:
+7. Veritabanini olusturun/guncelleyin:
+
+```bash
+dotnet ef database update
+```
+
+8. Uygulamayi baslatin:
 
 ```bash
 dotnet run
 ```
 
-6. Tarayıcıdan açın:
+9. Terminalde yazan `Now listening on` adresini tarayicida acin.
 
-- `https://localhost:xxxx/Account/Login`
-- `https://localhost:xxxx/Pet`
+## Hızlı Notlar
 
-Port numarasını terminal çıktısındaki `Now listening on` satırından görebilirsiniz.
+- Varsayilan kullanicilar: `admin / admin123` ve `user / user123`
+- Uygulama ilk calistiginda `SeedData` migration'lari uygular ve eksik kullanicilari ekler.
+- Iletisim numarasi sabittir: `444 16 03`
